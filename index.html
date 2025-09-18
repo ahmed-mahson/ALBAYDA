@@ -1,1 +1,655 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مركز معلومات محكمة البيضاء الابتدائية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #004d40;
+            --secondary-color: #e0f2f1;
+            --accent-color: #00796b;
+            --text-color: #333;
+            --light-text: #fff;
+            --background-color: #f9f9f9;
+            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* شاشة التحميل */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), #00251a);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: white;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        #splashScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .splash-logo {
+            width: 280px;
+            height: 280px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .splash-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+            }
+            to {
+                filter: drop-shadow(0 0 25px rgba(255, 255, 255, 1));
+            }
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ffffff, #e0f2f1);
+            animation: loading 3s forwards;
+        }
+        
+        @keyframes loading {
+            to { width: 100%; }
+        }
+        
+        /* الهيدر */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #00251a);
+            color: var(--light-text);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .logo img {
+            height: 70px;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+            transition: all 0.3s ease;
+        }
+        
+        .logo img:hover {
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1));
+            transform: scale(1.05);
+        }
+        
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            left: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        /* القائمة الجانبية */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), #00251a);
+            color: white;
+            transition: right 0.3s ease;
+            z-index: 99;
+            padding: 70px 20px 20px;
+            box-shadow: -2px 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        #sidebar.active {
+            right: 0;
+        }
+        
+        #sidebar ul {
+            list-style: none;
+        }
+        
+        #sidebar ul li {
+            margin-bottom: 15px;
+        }
+        
+        #sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        #sidebar ul li a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        
+        #sidebar ul li a i {
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .close-menu {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .close-menu:hover {
+            transform: rotate(90deg);
+        }
+        
+        /* المحتوى الرئيسي */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .main-title {
+            text-align: center;
+            margin: 30px 0;
+            color: var(--primary-color);
+        }
+        
+        .main-title h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-title p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* خدمات الشبكة */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .service-card {
+            background: linear-gradient(135deg, white, #f5f5f5);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .service-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            font-size: 2.2rem;
+            padding: 25px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .service-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .service-content p {
+            margin-bottom: 25px;
+            flex-grow: 1;
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 77, 64, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 77, 64, 0.4);
+        }
+        
+        /* نماذج البحث */
+        .search-form {
+            background: linear-gradient(135deg, white, #f8f8f8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .search-form h3 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--secondary-color);
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 77, 64, 0.2);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        /* إطارات الأنظمة المدمجة */
+        .system-frame {
+            width: 100%;
+            height: 700px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .frame-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        /* قسم التواصل */
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .contact-card {
+            background: linear-gradient(135deg, var(--secondary-color), #d0e8e6);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 1.3rem;
+        }
+        
+        .contact-info {
+            margin-bottom: 20px;
+        }
+        
+        .contact-info p {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .contact-info i {
+            margin-left: 12px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        /* الفوتر */
+        footer {
+            background: linear-gradient(135deg, var(--primary-color), #00251a);
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer p {
+            font-size: 1.1rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* وسائط متجاوبة */
+        @media (max-width: 768px) {
+            .header-content {
+                justify-content: center;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .main-title p {
+                font-size: 1rem;
+            }
+            
+            .system-frame {
+                height: 500px;
+            }
+            
+            .frame-actions {
+                flex-direction: column;
+            }
+            
+            .splash-logo {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .search-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شاشة التحميل -->
+    <div id="splashScreen">
+        <div class="splash-logo">
+            <img src="https://i.postimg.cc/zftm8DMf/icon.png" alt="شعار محكمة البيضاء الابتدائية">
+        </div>
+        <h2>مركز معلومات محكمة البيضاء الابتدائية</h2>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
 
+    <!-- الهيدر -->
+    <header>
+        <div class="header-content">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <img src="https://i.postimg.cc/zftm8DMf/icon.png" alt="شعار المحكمة">
+                <div class="logo-text">مركز معلومات محكمة البيضاء الابتدائية</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية -->
+    <div id="sidebar">
+        <button class="close-menu" id="closeMenu">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li><a href="#home" onclick="showPage('home')"><i class="fas fa-home"></i> الصفحة الرئيسية</a></li>
+            <li><a href="#case-search" onclick="showPage('case-search')"><i class="fas fa-search"></i> البحث عن قضية</a></li>
+            <li><a href="#sessions" onclick="showPage('sessions')"><i class="fas fa-calendar-day"></i> الجلسات اليومية</a></li>
+            <li><a href="#appeal-search" onclick="showPage('appeal-search')"><i class="fas fa-gavel"></i> البحث عن الطعون</a></li>
+            <li><a href="#contact" onclick="showPage('contact')"><i class="fas fa-phone"></i> التواصل مع المركز</a></li>
+        </ul>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="container">
+        <!-- الصفحة الرئيسية -->
+        <div id="home" class="page">
+            <div class="main-title">
+                <h2>مركز معلومات محكمة البيضاء الابتدائية</h2>
+                <p>نقدم لكم مجموعة من الخدمات الإلكترونية لتسهيل الوصول إلى المعلومات القضائية</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card" onclick="showPage('case-search')">
+                    <div class="service-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>البحث عن قضية</h3>
+                        <p>البحث في قضايا المحكمة وعرض النتائج بشكل منظم مع إمكانية الطباعة والتصدير إلى PDF</p>
+                        <span class="btn">البحث الآن</span>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="showPage('sessions')">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>البحث عن الجلسات اليومية</h3>
+                        <p>استعرض الجلسات اليومية للمحكمة وتابع مواعيد جلسات القضايا</p>
+                        <span class="btn">عرض الجلسات</span>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="showPage('appeal-search')">
+                    <div class="service-icon">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>البحث عن الطعون</h3>
+                        <p>ابحث عن الطعون والأحكام في المحكمة العليا اليمنية</p>
+                        <span class="btn">الاستعلام الآن</span>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="showPage('contact')">
+                    <div class="service-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>التواصل مع المركز</h3>
+                        <p>تواصل مباشر مع موظفي مركز معلومات المحكمة للاستفسارات والاستشارات</p>
+                        <span class="btn">التواصل</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- صفحة البحث عن قضية -->
+        <div id="case-search" class="page">
+            <div class="main-title">
+                <h2>البحث عن القضايا</h2>
+                <p>ابحث عن معلومات القضايا في محكمة البيضاء الابتدائية</p>
+            </div>
+
+            <div class="search-form">
+                <h3>معايير البحث عن القضايا</h3>
+                <div class="form-group">
+                    <label for="province">الجهة الرئاسية</label>
+                    <select id="province">
+                        <option value="">اختر المحافظة</option>
+                        <option value="البيضاء">البيضاء</option>
+                        <option value="صنعاء">صنعاء</option>
+                        <option value="عدن">عدن</option>
+                        <option value="تعز">تعز</option>
+                        <option value="حضرموت">حضرموت</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="courtType">نوع المحكمة</label>
+                    <select id="courtType">
+                        <option value="">اختر نوع المحكمة</option>
+                        <option value="ابتدائية">ابتدائية</option>
+                        <option value="استئناف">استئناف</option>
+                        <option value="تمييز">تمييز</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="court">المحكمة</label>
+                    <select id="court">
+                        <option value="">حدد المحكمة</option>
+                        <optio
