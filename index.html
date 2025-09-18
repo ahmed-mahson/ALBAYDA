@@ -300,6 +300,55 @@
             background-color: var(--accent-color);
         }
         
+        /* نماذج البحث */
+        .search-form {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+        }
+        
+        .search-form h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        
         /* إطارات الأنظمة المدمجة */
         .system-frame {
             width: 100%;
@@ -316,59 +365,12 @@
             margin-bottom: 30px;
         }
         
-        /* نتائج البحث */
-        .search-results {
-            background-color: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 30px;
-            display: none;
-        }
-        
-        .search-results.active {
-            display: block;
-        }
-        
-        .result-item {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .result-item:last-child {
-            border-bottom: none;
-        }
-        
-        .result-item h4 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-        
-        .result-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
         /* قسم التواصل */
-        .contact-section {
-            background-color: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 40px;
-        }
-        
-        .contact-section h2 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        
         .contact-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
+            margin-bottom: 40px;
         }
         
         .contact-card {
@@ -447,6 +449,10 @@
                 width: 180px;
                 height: 180px;
             }
+            
+            .form-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -454,7 +460,7 @@
     <!-- شاشة التحميل -->
     <div id="splashScreen">
         <div class="splash-logo">
-            <img src="https://i.postimg.cc/L6r3dk5Q/icon-192.png" alt="شعار محكمة البيضاء الابتدائية">
+            <img src="https://i.postimg.cc/zftm8DMf/icon.png" alt="شعار محكمة البيضاء الابتدائية">
         </div>
         <h2>مركز معلومات محكمة البيضاء الابتدائية</h2>
         <div class="loading-bar">
@@ -469,7 +475,7 @@
                 <i class="fas fa-bars"></i>
             </button>
             <div class="logo">
-                <img src="https://i.postimg.cc/L6r3dk5Q/icon-192.png" alt="شعار المحكمة">
+                <img src="https://i.postimg.cc/zftm8DMf/icon.png" alt="شعار المحكمة">
                 <div class="logo-text">مركز معلومات محكمة البيضاء الابتدائية</div>
             </div>
         </div>
@@ -482,10 +488,9 @@
         </button>
         <ul>
             <li><a href="#home" onclick="showPage('home')"><i class="fas fa-home"></i> الصفحة الرئيسية</a></li>
-            <li><a href="#lawsuits" onclick="showPage('lawsuits')"><i class="fas fa-folder-open"></i> نظام الدعاوى</a></li>
             <li><a href="#case-search" onclick="showPage('case-search')"><i class="fas fa-search"></i> البحث عن قضية</a></li>
             <li><a href="#sessions" onclick="showPage('sessions')"><i class="fas fa-calendar-day"></i> الجلسات اليومية</a></li>
-            <li><a href="#supreme-court" onclick="showPage('supreme-court')"><i class="fas fa-gavel"></i> المحكمة العليا</a></li>
+            <li><a href="#appeal-search" onclick="showPage('appeal-search')"><i class="fas fa-gavel"></i> البحث عن الطعون</a></li>
             <li><a href="#contact" onclick="showPage('contact')"><i class="fas fa-phone"></i> التواصل مع المركز</a></li>
         </ul>
     </div>
@@ -500,17 +505,6 @@
             </div>
 
             <div class="services-grid">
-                <div class="service-card" onclick="showPage('lawsuits')">
-                    <div class="service-icon">
-                        <i class="fas fa-folder-open"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>نظام الدعاوى والخدمات الإلكترونية</h3>
-                        <p>الوصول إلى نظام الدعاوى والخدمات الإلكترونية لوزارة العدل اليمنية مباشرة من خلال التطبيق</p>
-                        <span class="btn">الدخول إلى النظام</span>
-                    </div>
-                </div>
-
                 <div class="service-card" onclick="showPage('case-search')">
                     <div class="service-icon">
                         <i class="fas fa-search"></i>
@@ -533,53 +527,105 @@
                     </div>
                 </div>
 
-                <div class="service-card" onclick="showPage('supreme-court')">
+                <div class="service-card" onclick="showPage('appeal-search')">
                     <div class="service-icon">
                         <i class="fas fa-gavel"></i>
                     </div>
                     <div class="service-content">
-                        <h3>الاستعلام عن القضايا بالمحكمة العليا</h3>
-                        <p>الوصول إلى نظام المحكمة العليا للاستعلام عن القضايا والاطلاع على الأحكام</p>
+                        <h3>البحث عن الطعون</h3>
+                        <p>ابحث عن الطعون والأحكام في المحكمة العليا اليمنية</p>
                         <span class="btn">الاستعلام الآن</span>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="showPage('contact')">
+                    <div class="service-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>التواصل مع المركز</h3>
+                        <p>تواصل مباشر مع موظفي مركز معلومات المحكمة للاستفسارات والاستشارات</p>
+                        <span class="btn">التواصل</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- صفحة نظام الدعاوى -->
-        <div id="lawsuits" class="page">
-            <div class="main-title">
-                <h2>نظام الدعاوى والخدمات الإلكترونية</h2>
-                <p>الوصول المباشر إلى نظام وزارة العدل اليمنية للدعاوى الإلكترونية</p>
-            </div>
-
-            <div class="frame-actions">
-                <button class="btn" onclick="printFrame('lawsuit-frame')">
-                    <i class="fas fa-print"></i> طباعة
-                </button>
-                <button class="btn" onclick="downloadAsPDF('lawsuit-frame')">
-                    <i class="fas fa-download"></i> تصدير PDF
-                </button>
-                <button class="btn" onclick="showPage('home')">
-                    <i class="fas fa-arrow-right"></i> العودة للرئيسية
-                </button>
-            </div>
-
-            <iframe id="lawsuit-frame" src="https://judg.moj.gov.ye:8065" class="system-frame" frameborder="0"></iframe>
-        </div>
-
         <!-- صفحة البحث عن قضية -->
         <div id="case-search" class="page">
             <div class="main-title">
-                <h2>البحث عن قضية</h2>
+                <h2>البحث عن القضايا</h2>
                 <p>ابحث عن معلومات القضايا في محكمة البيضاء الابتدائية</p>
             </div>
 
+            <div class="search-form">
+                <h3>معايير البحث عن القضايا</h3>
+                <div class="form-group">
+                    <label for="province">الجهة الرئاسية</label>
+                    <select id="province">
+                        <option value="">اختر المحافظة</option>
+                        <option value="البيضاء">البيضاء</option>
+                        <option value="صنعاء">صنعاء</option>
+                        <option value="عدن">عدن</option>
+                        <option value="تعز">تعز</option>
+                        <option value="حضرموت">حضرموت</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="courtType">نوع المحكمة</label>
+                    <select id="courtType">
+                        <option value="">اختر نوع المحكمة</option>
+                        <option value="ابتدائية">ابتدائية</option>
+                        <option value="استئناف">استئناف</option>
+                        <option value="تمييز">تمييز</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="court">المحكمة</label>
+                    <select id="court">
+                        <option value="">حدد المحكمة</option>
+                        <option value="محكمة البيضاء الابتدائية">محكمة البيضاء الابتدائية</option>
+                        <option value="محكمة البيضاء الاستئنافية">محكمة البيضاء الاستئنافية</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="caseType">نوع القضية</label>
+                    <select id="caseType">
+                        <option value="">اختر نوع القضية</option>
+                        <option value="مدنية">مدنية</option>
+                        <option value="جنائية">جنائية</option>
+                        <option value="أحوال شخصية">أحوال شخصية</option>
+                        <option value="تجارية">تجارية</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subCaseType">النوع الفرعي للقضية</label>
+                    <select id="subCaseType">
+                        <option value="">حدد نوع القضية الفرعي</option>
+                        <option value="تعاقدية">تعاقدية</option>
+                        <option value="تعويض">تعويض</option>
+                        <option value="منازعات عقارية">منازعات عقارية</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="caseNumber">رقم القضية</label>
+                    <input type="text" id="caseNumber" placeholder="1400/0000">
+                </div>
+                <div class="form-actions">
+                    <button class="btn" onclick="searchCases()">
+                        <i class="fas fa-download"></i> جلب القضية
+                    </button>
+                    <button class="btn" onclick="showPage('home')">
+                        <i class="fas fa-sign-out-alt"></i> خروج
+                    </button>
+                </div>
+            </div>
+
             <div class="frame-actions">
-                <button class="btn" onclick="printFrame('case-search-frame')">
+                <button class="btn" onclick="print()">
                     <i class="fas fa-print"></i> طباعة
                 </button>
-                <button class="btn" onclick="downloadAsPDF('case-search-frame')">
+                <button class="btn" onclick="downloadAsPDF()">
                     <i class="fas fa-download"></i> تصدير PDF
                 </button>
                 <button class="btn" onclick="showPage('home')">
@@ -587,21 +633,56 @@
                 </button>
             </div>
 
-            <iframe id="case-search-frame" src="https://judg.moj.gov.ye/JudgmentData/CustomRetCourtSittingByDate" class="system-frame" frameborder="0"></iframe>
+            <iframe id="case-results-frame" src="https://judg.moj.gov.ye/JudgmentData/CustomRetCourtSittingByDate" class="system-frame" frameborder="0"></iframe>
         </div>
 
         <!-- صفحة الجلسات اليومية -->
         <div id="sessions" class="page">
             <div class="main-title">
-                <h2>الجلسات اليومية</h2>
+                <h2>البحث عن الجلسات اليومية</h2>
                 <p>استعرض الجلسات اليومية في محكمة البيضاء الابتدائية</p>
             </div>
 
+            <div class="search-form">
+                <h3>معايير البحث عن الجلسات</h3>
+                <div class="form-group">
+                    <label for="sessionProvince">المحافظة</label>
+                    <select id="sessionProvince">
+                        <option value="">اختر المحافظة</option>
+                        <option value="البيضاء">البيضاء</option>
+                        <option value="صنعاء">صنعاء</option>
+                        <option value="عدن">عدن</option>
+                        <option value="تعز">تعز</option>
+                        <option value="حضرموت">حضرموت</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sessionCourt">المحكمة</label>
+                    <select id="sessionCourt">
+                        <option value="">اختر المحكمة</option>
+                        <option value="محكمة البيضاء الابتدائية">محكمة البيضاء الابتدائية</option>
+                        <option value="محكمة البيضاء الاستئنافية">محكمة البيضاء الاستئنافية</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sessionDate">حدد التاريخ</label>
+                    <input type="date" id="sessionDate" value="2025-09-18">
+                </div>
+                <div class="form-actions">
+                    <button class="btn" onclick="searchSessions()">
+                        <i class="fas fa-download"></i> جلب الجلسات
+                    </button>
+                    <button class="btn" onclick="showPage('home')">
+                        <i class="fas fa-undo"></i> رجوع
+                    </button>
+                </div>
+            </div>
+
             <div class="frame-actions">
-                <button class="btn" onclick="printFrame('sessions-frame')">
+                <button class="btn" onclick="print()">
                     <i class="fas fa-print"></i> طباعة
                 </button>
-                <button class="btn" onclick="downloadAsPDF('sessions-frame')">
+                <button class="btn" onclick="downloadAsPDF()">
                     <i class="fas fa-download"></i> تصدير PDF
                 </button>
                 <button class="btn" onclick="showPage('home')">
@@ -612,18 +693,55 @@
             <iframe id="sessions-frame" src="https://judg.moj.gov.ye/JUDDATALIST/CustomRetCaseMaster" class="system-frame" frameborder="0"></iframe>
         </div>
 
-        <!-- صفحة المحكمة العليا -->
-        <div id="supreme-court" class="page">
+        <!-- صفحة البحث عن الطعون -->
+        <div id="appeal-search" class="page">
             <div class="main-title">
-                <h2>الاستعلام عن القضايا بالمحكمة العليا</h2>
-                <p>ابحث عن القضايا والأحكام في المحكمة العليا اليمنية</p>
+                <h2>البحث عن الطعون</h2>
+                <p>ابحث عن الطعون والأحكام في المحكمة العليا اليمنية</p>
+            </div>
+
+            <div class="search-form">
+                <h3>معايير البحث عن الطعون</h3>
+                <div class="form-group">
+                    <label for="nameSearch">بحث عن اسم</label>
+                    <input type="text" id="nameSearch" placeholder="ابحث بالاسم">
+                </div>
+                <div class="form-group">
+                    <label for="appealType">نوع الطعن</label>
+                    <select id="appealType">
+                        <option value="الكل">الكل (طعن، التعاس)</option>
+                        <option value="طعن">طعن</option>
+                        <option value="التعاس">التعاس</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="appealCourt">محكمة الاستئناف/الجهة</label>
+                    <select id="appealCourt">
+                        <option value="الكل">الكل</option>
+                        <option value="البيضاء">البيضاء</option>
+                        <option value="صنعاء">صنعاء</option>
+                        <option value="عدن">عدن</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="appealNumber">رقم الحكم الاستئنافي</label>
+                    <input type="text" id="appealNumber" placeholder="أدخل رقم الحكم">
+                </div>
+                <div class="form-actions">
+                    <button class="btn" onclick="searchAppeals()">
+                        <i class="fas fa-search"></i> بحث
+                    </button>
+                    <button class="btn" onclick="newSearch()">
+                        <i class="fas fa-plus"></i> بحث جديد
+                    </button>
+                </div>
             </div>
 
             <div class="frame-actions">
-                <button class="btn" onclick="printFrame('supreme-frame')">
+                <button class="btn" onclick="print()">
                     <i class="fas fa-print"></i> طباعة
                 </button>
-                <button class="btn" onclick="downloadAsPDF('supreme-frame')">
+                <button class="btn" onclick="downloadAsPDF()">
                     <i class="fas fa-download"></i> تصدير PDF
                 </button>
                 <button class="btn" onclick="showPage('home')">
@@ -631,7 +749,7 @@
                 </button>
             </div>
 
-            <iframe id="supreme-frame" src="https://ysc.org.ye/Search.aspx" class="system-frame" frameborder="0"></iframe>
+            <iframe id="appeal-frame" src="https://ysc.org.ye/Search.aspx" class="system-frame" frameborder="0"></iframe>
         </div>
 
         <!-- صفحة التواصل -->
@@ -667,23 +785,6 @@
                     </div>
                     <button class="btn" onclick="joinWhatsapp()">الانضمام للمجموعة</button>
                 </div>
-            </div>
-
-            <div class="contact-section">
-                <h3>إرسال رسالة</h3>
-                <div class="form-group">
-                    <label for="messageName">الاسم</label>
-                    <input type="text" id="messageName">
-                </div>
-                <div class="form-group">
-                    <label for="messagePhone">رقم الهاتف</label>
-                    <input type="tel" id="messagePhone">
-                </div>
-                <div class="form-group">
-                    <label for="messageContent">الرسالة</label>
-                    <textarea id="messageContent" rows="5" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
-                </div>
-                <button class="btn" onclick="sendMessage()">إرسال الرسالة</button>
             </div>
         </div>
     </div>
@@ -743,43 +844,61 @@
             window.scrollTo(0, 0);
         }
 
-        // وظائف الطباعة والتصدير
-        function printFrame(frameId) {
-            const frame = document.getElementById(frameId);
-            const frameWindow = frame.contentWindow;
+        // وظائف البحث
+        function searchCases() {
+            const province = document.getElementById('province').value;
+            const courtType = document.getElementById('courtType').value;
+            const court = document.getElementById('court').value;
+            const caseType = document.getElementById('caseType').value;
+            const subCaseType = document.getElementById('subCaseType').value;
+            const caseNumber = document.getElementById('caseNumber').value;
             
-            frameWindow.focus();
-            frameWindow.print();
+            // في التطبيق الحقيقي، هنا سيتم إرسال البيانات إلى الخادم
+            alert(`تم البحث عن القضايا بالمعايير التالية:\nالمحافظة: ${province}\nنوع المحكمة: ${courtType}\nالمحكمة: ${court}\nنوع القضية: ${caseType}\nالنوع الفرعي: ${subCaseType}\nرقم القضية: ${caseNumber}`);
+            
+            // تحميل الصفحة الأصلية
+            document.getElementById('case-results-frame').src = "https://judg.moj.gov.ye/JudgmentData/CustomRetCourtSittingByDate";
         }
 
-        function downloadAsPDF(frameId) {
+        function searchSessions() {
+            const province = document.getElementById('sessionProvince').value;
+            const court = document.getElementById('sessionCourt').value;
+            const date = document.getElementById('sessionDate').value;
+            
+            // في التطبيق الحقيقي، هنا سيتم إرسال البيانات إلى الخادم
+            alert(`تم البحث عن الجلسات بالمعايير التالية:\nالمحافظة: ${province}\nالمحكمة: ${court}\nالتاريخ: ${date}`);
+            
+            // تحميل الصفحة الأصلية
+            document.getElementById('sessions-frame').src = "https://judg.moj.gov.ye/JUDDATALIST/CustomRetCaseMaster";
+        }
+
+        function searchAppeals() {
+            const name = document.getElementById('nameSearch').value;
+            const appealType = document.getElementById('appealType').value;
+            const court = document.getElementById('appealCourt').value;
+            const appealNumber = document.getElementById('appealNumber').value;
+            
+            // في التطبيق الحقيقي، هنا سيتم إرسال البيانات إلى الخادم
+            alert(`تم البحث عن الطعون بالمعايير التالية:\nالاسم: ${name}\nنوع الطعن: ${appealType}\nالمحكمة: ${court}\nرقم الحكم: ${appealNumber}`);
+            
+            // تحميل الصفحة الأصلية
+            document.getElementById('appeal-frame').src = "https://ysc.org.ye/Search.aspx";
+        }
+
+        function newSearch() {
+            document.getElementById('nameSearch').value = '';
+            document.getElementById('appealType').value = 'الكل';
+            document.getElementById('appealCourt').value = 'الكل';
+            document.getElementById('appealNumber').value = '';
+        }
+
+        function downloadAsPDF() {
             alert("سيتم تحميل المحتوى كملف PDF. هذه الميزة تتطلب اتصالاً بالإنترنت وقد تستغرق بضع لحظات.");
-            
-            // في التطبيق الحقيقي، نستخدم مكتبة مثل jsPDF أو window.print() للتصدير إلى PDF
-            const frame = document.getElementById(frameId);
-            const frameWindow = frame.contentWindow;
-            
-            frameWindow.focus();
-            frameWindow.print();
+            window.print();
         }
 
         function joinWhatsapp() {
             alert('سيتم توجيهك إلى مجموعة الواتساب الرسمية للمركز');
-        }
-
-        function sendMessage() {
-            const name = document.getElementById('messageName').value;
-            const phone = document.getElementById('messagePhone').value;
-            const message = document.getElementById('messageContent').value;
-            
-            if (name && phone && message) {
-                alert('تم إرسال رسالتك بنجاح، سيتم التواصل معك قريباً');
-                document.getElementById('messageName').value = '';
-                document.getElementById('messagePhone').value = '';
-                document.getElementById('messageContent').value = '';
-            } else {
-                alert('يرجى ملء جميع الحقول');
-            }
         }
     </script>
 </body>
