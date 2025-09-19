@@ -45,12 +45,12 @@
             align-items: center;
             z-index: 1000;
             color: white;
+            transition: opacity 0.5s ease;
         }
         
         #splashScreen.hidden {
             opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease-out, visibility 0.5s;
+            pointer-events: none;
         }
         
         .splash-logo {
@@ -559,101 +559,93 @@
         </div>
     </div>
 
-    <!-- الهيدر -->
-    <header>
-        <div class="header-content">
-            <button class="menu-toggle" id="menuToggle">
-                <i class="fas fa-bars"></i>
+    <!-- المحتوى الرئيسي (مخفي في البداية) -->
+    <div id="mainContent" style="display: none;">
+        <!-- الهيدر -->
+        <header>
+            <div class="header-content">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo">
+                    <img src="https://i.postimg.cc/zftm8DMf/icon.png" alt="شعار المحكمة">
+                    <div class="logo-text">مركز معلومات محكمة البيضاء الابتدائية</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- القائمة الجانبية -->
+        <div id="sidebar">
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
             </button>
-            <div class="logo">
-                <img src="https://i.postimg.cc/zftm8DMf/icon.png" alt="شعار المحكمة">
-                <div class="logo-text">مركز معلومات محكمة البيضاء الابتدائية</div>
-            </div>
-        </div>
-    </header>
-
-    <!-- القائمة الجانبية -->
-    <div id="sidebar">
-        <button class="close-menu" id="closeMenu">
-            <i class="fas fa-times"></i>
-        </button>
-        <ul>
-            <li><a href="#home" onclick="showPage('home')"><i class="fas fa-home"></i> الصفحة الرئيسية</a></li>
-            <li><a href="#case-search" onclick="showPage('case-search')"><i class="fas fa-search"></i> البحث عن قضية</a></li>
-            <li><a href="#sessions" onclick="showPage('sessions')"><i class="fas fa-calendar-day"></i> الجلسات اليومية</a></li>
-            <li><a href="#appeal-search" onclick="showPage('appeal-search')"><i class="fas fa-gavel"></i> البحث عن الطعون</a></li>
-            <li><a href="#contact" onclick="showPage('contact')"><i class="fas fa-phone"></i> التواصل مع المركز</a></li>
-        </ul>
-    </div>
-
-    <!-- المحتوى الرئيسي -->
-    <div class="container">
-        <!-- الصفحة الرئيسية -->
-        <div id="home" class="page">
-            <div class="main-title">
-                <h2>مركز معلومات محكمة البيضاء الابتدائية</h2>
-                <p>نقدم لكم مجموعة من الخدمات الإلكترونية لتسهيل الوصول إلى المعلومات القضائية</p>
-            </div>
-
-            <div class="services-grid">
-                <div class="service-card" onclick="showPage('case-search')">
-                    <div class="service-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>البحث عن قضية</h3>
-                        <p>البحث في قضايا المحكمة وعرض النتائج بشكل منظم مع إمكانية الطباعة والتصدير إلى PDF</p>
-                        <span class="btn">البحث الآن</span>
-                    </div>
-                </div>
-
-                <div class="service-card" onclick="showPage('sessions')">
-                    <div class="service-icon">
-                        <i class="fas fa-calendar-day"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>البحث عن الجلسات اليومية</h3>
-                        <p>استعرض الجلسات اليومية للمحكمة وتابع مواعيد جلسات القضايا</p>
-                        <span class="btn">عرض الجلسات</span>
-                    </div>
-                </div>
-
-                <div class="service-card" onclick="showPage('appeal-search')">
-                    <div class="service-icon">
-                        <i class="fas fa-gavel"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>البحث عن الطعون</h3>
-                        <p>ابحث عن الطعون والأحكام في المحكمة العليا اليمنية</p>
-                        <span class="btn">الاستعلام الآن</span>
-                    </div>
-                </div>
-
-                <div class="service-card" onclick="showPage('contact')">
-                    <div class="service-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>التواصل مع المركز</h3>
-                        <p>تواصل مباشر مع موظفي مركز معلومات المحكمة للاستفسارات والاستشارات</p>
-                        <span class="btn">التواصل</span>
-                    </div>
-                </div>
-            </div>
+            <ul>
+                <li><a href="#home" onclick="showPage('home')"><i class="fas fa-home"></i> الصفحة الرئيسية</a></li>
+                <li><a href="#case-search" onclick="showPage('case-search')"><i class="fas fa-search"></i> البحث عن قضية</a></li>
+                <li><a href="#sessions" onclick="showPage('sessions')"><i class="fas fa-calendar-day"></i> الجلسات اليومية</a></li>
+                <li><a href="#appeal-search" onclick="showPage('appeal-search')"><i class="fas fa-gavel"></i> البحث عن الطعون</a></li>
+                <li><a href="#contact" onclick="showPage('contact')"><i class="fas fa-phone"></i> التواصل مع المركز</a></li>
+            </ul>
         </div>
 
-        <!-- صفحة البحث عن قضية -->
-        <div id="case-search" class="page">
-            <div class="main-title">
-                <h2>البحث عن القضايا</h2>
-                <p>ابحث عن معلومات القضايا في محكمة البيضاء الابتدائية</p>
+        <!-- المحتوى الرئيسي -->
+        <div class="container">
+            <!-- الصفحة الرئيسية -->
+            <div id="home" class="page">
+                <div class="main-title">
+                    <h2>مركز معلومات محكمة البيضاء الابتدائية</h2>
+                    <p>نقدم لكم مجموعة من الخدمات الإلكترونية لتسهيل الوصول إلى المعلومات القضائية</p>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card" onclick="showPage('case-search')">
+                        <div class="service-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="service-content">
+                            <h3>البحث عن قضية</h3>
+                            <p>البحث في قضايا المحكمة وعرض النتائج بشكل منظم مع إمكانية الطباعة والتصدير إلى PDF</p>
+                            <span class="btn">البحث الآن</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" onclick="showPage('sessions')">
+                        <div class="service-icon">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="service-content">
+                            <h3>البحث عن الجلسات اليومية</h3>
+                            <p>استعرض الجلسات اليومية للمحكمة وتابع مواعيد جلسات القضايا</p>
+                            <span class="btn">عرض الجلسات</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" onclick="showPage('appeal-search')">
+                        <div class="service-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <div class="service-content">
+                            <h3>البحث عن الطعون</h3>
+                            <p>ابحث عن الطعون والأحكام في المحكمة العليا اليمنية</p>
+                            <span class="btn">الاستعلام الآن</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" onclick="showPage('contact')">
+                        <div class="service-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="service-content">
+                            <h3>التواصل مع المركز</h3>
+                            <p>تواصل مباشر مع موظفي مركز معلومات المحكمة للاستفسارات والاستشارات</p>
+                            <span class="btn">التواصل</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="search-form">
-                <h3>معايير البحث عن القضايا</h3>
-                <div class="form-group">
-                    <label for="province">الجهة الرئاسية</label>
-                    <select id="province">
-                        <option value="">اختر المحافظة</option>
-                        <option value="البيضاء">البيضاء</option>
-            
+            <!-- صفحة البحث عن قضية -->
+            <div id="case-search" class="page">
+                <div class="main-title">
+                    <h2>البحث عن القضايا</h2>
+                    <p>ابحث عن معلومات القضايا في محكمة البيضاء الابتدائية
